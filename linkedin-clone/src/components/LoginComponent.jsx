@@ -1,16 +1,35 @@
-import React from 'react'
-import { LoginAPI } from '../Api/AuthAPI'
+import React, { useState } from 'react'
+import { LoginAPI } from '../api/AuthAPI'
 import'../Sass/LoginComponent.scss'
 
 export default function LoginComponent() {
-  const login = () => {
-    LoginAPI();
+  const [credentails, setCredentials] = useState({});
+  const login = async() => {
+   let res = await LoginAPI(credentails.email, credentails.password);
+   console.log(res);
   };
-
   return (
-    <div>
-        <h1>LoginComponent</h1>
-        <button onClick={login} className="login-btn">Log in to Linkedin</button>
+    <div className='login-wrapper'>
+      <h1>LoginComponent</h1>
+      <div className='auth-inputs'>
+        <input
+          onChange={(event) =>
+            setCredentials({ ...credentails, email: event.target.value})
+          }
+          className="common-input"
+          placeholder ="Enter your Email"
+        />
+        <input
+          onChange={(event) =>
+            setCredentials({ ...credentails, password: event.target.value})
+          }
+          className="common-input"
+          placeholder ="Enter your Password"
+        />
+      </div>
+      <button onClick={login} className='login-btn'>
+        Log in to Linkedin
+      </button>
     </div>
   );
 }
